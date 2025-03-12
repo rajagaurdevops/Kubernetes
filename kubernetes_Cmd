@@ -1,0 +1,54 @@
+# kubernetes
+
+kubectl cluster-info                 :>  To view cluster information
+kubectl get nodes                    :>  To view the available nodes in a cluster
+kubectl describe node <node-name>    :>  To view information about a specific node
+
+Pod Management Commands
+------------------------
+kubectl get pods                      :>  to see the list of all pods
+kubectl get pods -o wide              :>  To view detailed information about Pods
+kubectl describe pod <pod-name>       :>  To see the details of a specific pod
+kubectl logs <pod-name>                :>  To view the logs of a Pod
+kubectl logs -f <pod-name>             :>   To view Live Logs (Follow Mode)
+kubectl exec -it <pod-name> -- /bin/sh  :>  Getting Shell Access inside a Pod
+kubectl delete pod <pod-name>           :>   Delete a Pod
+kubectl delete pod --all                 :>  Deleting All Pods
+
+Deployment & ReplicaSet Commands
+--------------------------------
+kubectl get deployments                   :> see all deployments
+kubectl describe deployment <deployment-name>  :> Information about any specific deployment
+kubectl rollout status deployment <deployment-name>   :> To check the status of deployment
+kubectl delete deployment <deployment-name>          :>  Delete a Deployment
+
+Commands related to Services
+--------------------------
+kubectl get services                            :> to see list of all service
+kubectl describe service <service-name>          :> to see the details of a specific service
+kubectl delete service <service-name>            :>  Deleting a Service
+
+Commands related to namespace
+---------------------------
+kubectl get namespaces                           :> to view all namespace
+kubectl create namespace <namespace-name>         :>  to create a namespace
+kubectl delete namespace <namespace-name>          :> deleting namespace
+
+ConfigMap & Secret Commands
+-----------------------------
+kubectl get configmap                             :> to see all ConfigMaps
+kubectl describe configmap <configmap-name>        :> to see the details of a specific confimap
+kubectl get secret                                  :> see all secret
+kubectl describe secret <secret-name>               :> to view the details of a specific secret
+
+Apply & Delete YAML Files
+--------------------------
+kubectl apply -f <file-name>.yaml                  :> Creating Resources from a YAML File
+kubectl delete -f <file-name>.yaml                  :> Deleting Resources from a YAML File
+
+Useful Debugging Commands
+---------------------------
+kubectl get events                              :> To View Recent Events in a Cluster
+kubectl top pod                                 :> To view the CPU and memory usage of Pods
+kubectl top node                                :> To view the cpu and memory usage of node
+
