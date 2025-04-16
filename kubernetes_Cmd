@@ -52,3 +52,15 @@ kubectl get events                              :> To View Recent Events in a Cl
 kubectl top pod                                 :> To view the CPU and memory usage of Pods
 kubectl top node                                :> To view the cpu and memory usage of node
 
+
+
+
+kubectl create deployment <deployment-name> --image=<image-name>
+kubectl expose deployment <deployment-name> --port=80 --type=LoadBalancer   
+kubectl create deployment my-webapp --image=rajagaurdevops/webapp-demo:02
+kubectl set image deployment my-webapp-test webapp-demo=rajagaurdevops/webapp-demo:03
+kubectl rollout status deployment <deployment-name>
+kubectl rollout undo deployment <deployment-name>
+kubectl scale deployment <deployment-name> --replicas=4
+
+
