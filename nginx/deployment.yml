@@ -1,0 +1,27 @@
+apiVersion: apps/v1              # API version for the Deployment resource
+kind: Deployment                 # Specifies that this is a Deployment
+metadata:
+  name: my-nginx                 # Name of the Deployment
+spec:
+  replicas: 2                    # Number of pods to run (2 replicas)
+  selector:
+    matchLabels:
+      app: nginx                 # Selector to match the pods with label 'app: nginx'
+  template:
+    metadata:
+      labels:
+        app: nginx               # Labels for the pods created by this Deployment
+    spec:
+      containers:
+      - name: nginx              # Name of the container
+        image: nginx:latest      # Image to use for the container
+        ports:
+        - containerPort: 80      # Exposes port 80 inside the container
+        volumeMounts:
+        - name: html-volume                      # Refers to the volume defined below
+          mountPath: /usr/share/nginx/html/index.html  # Path inside the container to mount the file
+          subPath: index.html                    # Mount only the specific file from the volume
+      volumes:
+      - name: html-volume        # Name of the volume
+        configMap:
+          name: nginx-html       # Uses the 'nginx-html' ConfigMap as the volume source
