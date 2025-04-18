@@ -1,0 +1,7 @@
+apiVersion: v1                            # API version for ConfigMap
+kind: ConfigMap                           # Declares this resource as a ConfigMap
+metadata:
+  name: {{ include "my-nginx-chart.fullname" . }}-html   # Generates the name using a helper template (e.g., release-my-nginx-chart-html)
+data:
+  index.html: |-                          # Key name is 'index.html', content will be mounted as a file
+{{ .Values.customHtml | indent 4 }}       # Inserts the HTML content from values.yaml and indents it for YAML formatting

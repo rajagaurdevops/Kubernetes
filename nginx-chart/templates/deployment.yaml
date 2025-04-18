@@ -1,0 +1,19 @@
+apiVersion: apps/v1                                          # API version for the Deployment resource
+kind: Deployment                                             # Declares this resource as a Deployment
+metadata:
+  name: {{ include "my-nginx-chart.fullname" . }}            # Sets the Deployment name dynamically using a helper template
+spec:
+  replicas: {{ .Values.replicaCount }}                       # Number of pod replicas (from values.yaml)
+  selector:
+    matchLabels:
+      app: {{ include "my-nginx-chart.name" . }}             # Matches pods with this label to manage them under this Deployment
+  template:
+    metadata:
+      labels:
+        app: {{ include "my-nginx-chart.name" . }}           # Labels assigned to pods for identification and service selection
+    spec:
+      containers:
+        - name: nginx                                         # Name of the container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"  # Container image and tag from values.yaml
+          imagePullPolicy: {{ .Values.image.pullPolicy }}     # Image pull policy (e.g., IfNotPresent)
+          ports:

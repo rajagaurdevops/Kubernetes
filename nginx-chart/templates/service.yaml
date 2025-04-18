@@ -1,0 +1,12 @@
+apiVersion: v1                                     # API version for Service
+kind: Service                                      # Declares this as a Service resource
+metadata:
+  name: {{ include "my-nginx-chart.fullname" . }} # Dynamically sets the service name using a helper template
+spec:
+  type: {{ .Values.service.type }}                # Service type (e.g., ClusterIP, NodePort, LoadBalancer) from values.yaml
+  selector:
+    app: {{ include "my-nginx-chart.name" . }}    # Matches pods with this label to route traffic to
+  ports:
+    - protocol: TCP                               # Protocol used by the service
+      port: {{ .Values.service.port }}            # Port exposed by the service (external)
+      targetPort: 80                              # Port on the pod/container the traffic is forwarded to

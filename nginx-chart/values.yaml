@@ -1,0 +1,17 @@
+replicaCount: 2            # Number of NGINX pod replicas to run
+
+image:
+  repository: nginx        # Docker image repository
+  tag: latest              # Image tag (version)
+  pullPolicy: IfNotPresent # Image pull policy (Only pull if image is not already present)
+
+service:
+  type: NodePort           # Service type to expose NGINX (ClusterIP, NodePort, or LoadBalancer)
+  port: 80                 # Port the service will expose
+
+customHtml: |              # Custom HTML content for index.html (will be injected into a ConfigMap)
+  <html>
+    <body>
+      <h1>Hello from Helm!</h1>  # You can customize this content
+    </body>
+  </html>
