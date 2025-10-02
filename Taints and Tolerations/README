@@ -137,7 +137,21 @@ Pod will stay on the node for 3600 seconds (1 hour) before being evicted (unless
 
 
 
-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "example-key"
+    operator: "Exists"
+    effect: "NoSchedule"
 
 
 
