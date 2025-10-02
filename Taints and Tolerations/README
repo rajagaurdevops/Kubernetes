@@ -1,16 +1,16 @@
-# Kubernetes Taints and Tolerations
+#Kubernetes Taints and Tolerations
 ______________________________________
 
   Taints and Tolerations in Kubernetes are used to control the scheduler’s behavior.
   They ensure that pods are not scheduled onto inappropriate nodes.
 
-# Taints
+Taints
 
 
   Node affinity is a Pod property that attracts it to certain nodes (as a preference or a hard requirement).
   Taints work in the opposite way — they allow a node to repel a set of pods.
 
-# Tolerations
+Tolerations
 _____________
    Applied on pods.
    Tolerations allow the scheduler to place pods on nodes that have matching taints.
