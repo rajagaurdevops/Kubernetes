@@ -81,9 +81,9 @@ kubectl taint nodes <node_name> run=mypod:NoSchedule-
       effect: "NoSchedule"
 ```
 
-Either toleration above matches the taint
-The scheduler considers tolerations when selecting a node
-If .spec.nodeName is specified manually, the scheduler is bypassed
+Either toleration above matches the taint<br>
+The scheduler considers tolerations when selecting a node<br>
+If .spec.nodeName is specified manually, the scheduler is bypassed<br>
 However, if the node has a NoExecute taint, the kubelet can still evict the pod if there is no matching toleration.
 
 #  Example Pod YAML
@@ -106,10 +106,18 @@ However, if the node has a NoExecute taint, the kubelet can still evict the pod 
             effect: "NoSchedule"
 ```
   # Taint Effects
-  # 1. NoExecute
-    Pods already running on the node without toleration → immediately evicted.
-    Pods with toleration (no tolerationSeconds) → stay bound forever.
-    Pods with toleration (tolerationSeconds set) → evicted after specified time.
+   1. NoExecute<br>
+      Pods already running on the node without toleration → immediately evicted<br>
+      Pods with toleration (no tolerationSeconds) → stay bound forever<br>
+      Pods with toleration (tolerationSeconds set) → evicted after specified time
+
+   2. NoSchedule<br>
+        New pods without matching toleration → not scheduled<br>
+        Existing pods are unaffected
+
+   3. PreferNoSchedule<br>
+       A "soft" version of NoSchedule<br>
+       Scheduler will try to avoid placing the pod but does not guarantee it<br>
 
 
 
