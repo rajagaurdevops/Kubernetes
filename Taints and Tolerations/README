@@ -1,6 +1,4 @@
-#Kubernetes Taints and Tolerations
-______________________________________
-
+###Kubernetes Taints and Tolerations
   Taints and Tolerations in Kubernetes are used to control the scheduler’s behavior.
   They ensure that pods are not scheduled onto inappropriate nodes.
 
@@ -35,7 +33,7 @@ kubectl taint nodes node1 key1=value1:NoSchedule
 Adding Tolerations to Pods
 Tolerations are specified in the PodSpec.
 Example:
-
+```
     tolerations:
     - key: "key1"
       operator: "Equal"
@@ -45,7 +43,7 @@ Example:
     - key: "key1"
       operator: "Exists"
       effect: "NoSchedule"
-
+```
 Either toleration above matches the taint.
 The scheduler considers tolerations when selecting a node.
 If .spec.nodeName is specified manually, the scheduler is bypassed.
