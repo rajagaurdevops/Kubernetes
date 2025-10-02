@@ -41,3 +41,46 @@ Solution: Use the following command to remove the taint from the node:
 ```
 kubectl taint nodes <node_name> run=mypod:NoSchedule-
 ```
+
+
+# Taint Effects
+1. NoExecute
+   Pods already running on the node without toleration → immediately evicted.
+   Pods with toleration (no tolerationSeconds) → stay bound forever.
+   Pods with toleration (tolerationSeconds set) → evicted after specified time.
+
+2. NoSchedule
+   New pods without matching toleration → not scheduled.
+   Existing pods are unaffected.
+
+3. PreferNoSchedule
+   A "soft" version of NoSchedule.
+   Scheduler will try to avoid placing the pod but does not guarantee it.
+________________________________________________________________________________________________________________________________________
+# Taints
+  Node affinity is a Pod property that attracts it to certain nodes (as a preference or a hard requirement).
+  Taints work in the opposite way — they allow a node to repel a set of pods
+
+# Tolerations
+Applied on pods.
+   Tolerations allow the scheduler to place pods on nodes that have matching taints.
+   Important: Tolerations do not guarantee scheduling; the scheduler still considers other constraints
+
+  To add a taint on a node:
+  ```
+  kubectl taint nodes <node_name> run=mypod:NoSchedule
+ ```
+# key: key1
+# value: value1
+# effect: NoSchedule
+Meaning: No pod will be scheduled on node1 unless it has a matching toleration.
+
+# Removing a Taint
+```
+kubectl taint nodes <node_name> run=mypod:NoSchedule-
+```
+
+  
+
+
+
