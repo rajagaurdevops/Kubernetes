@@ -1,0 +1,106 @@
+Kubernetes Taints and Tolerations
+Taints and Tolerations in Kubernetes are used to control the scheduler’s behavior.
+They ensure that pods are not scheduled onto inappropriate nodes.
+Taints
+Node affinity is a Pod property that attracts it to certain nodes (as a preference or a hard requirement).
+Taints work in the opposite way — they allow a node to repel a set of pods.
+Tolerations
+Applied on pods.
+Tolerations allow the scheduler to place pods on nodes that have matching taints.
+Important: Tolerations do not guarantee scheduling; the scheduler still considers other constraints.
+Adding a Taint
+To add a taint on a node:
+kubectl taint nodes node1 key1=value1:NoSchedule
+key: key1
+value: value1
+effect: NoSchedule
+Meaning: No pod will be scheduled on node1 unless it has a matching toleration.
+Removing a Taint
+kubectl taint nodes node1 key1=value1:NoSchedule-
+Adding Tolerations to Pods
+Tolerations are specified in the PodSpec.
+Example:
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+
+- key: "key1"
+  operator: "Exists"
+  effect: "NoSchedule"
+Either toleration above matches the taint.
+The scheduler considers tolerations when selecting a node.
+If .spec.nodeName is specified manually, the scheduler is bypassed.
+However, if the node has a NoExecute taint, the kubelet can still evict the pod if there is no matching toleration.
+Example Pod YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "example-key"
+    operator: "Exists"
+    effect: "NoSchedule"
+Toleration Matching Rules
+Default operator: Equal
+A toleration matches a taint if the key and effect are the same, and:
+operator: Exists → value must not be specified.
+operator: Equal → value must also match.
+Special Cases
+Empty key → operator must be Exists → matches all keys/values (effect must still match).
+Empty effect → matches all effects for that key.
+Taint Effects
+1. NoExecute
+Pods already running on the node without toleration → immediately evicted.
+Pods with toleration (no tolerationSeconds) → stay bound forever.
+Pods with toleration (tolerationSeconds set) → evicted after specified time.
+2. NoSchedule
+New pods without matching toleration → not scheduled.
+Existing pods are unaffected.
+3. PreferNoSchedule
+A "soft" version of NoSchedule.
+Scheduler will try to avoid placing the pod but does not guarantee it.
+Multiple Taints and Tolerations
+A node can have multiple taints.
+A pod can have multiple tolerations.
+Scheduling logic:
+Check all taints on the node.
+Ignore taints that match pod tolerations.
+Apply effects of the remaining taints.
+Rules:
+At least one un-ignored NoSchedule taint → Pod will not be scheduled.
+No NoSchedule but at least one un-ignored PreferNoSchedule → Scheduler will try to avoid.
+Any un-ignored NoExecute taint → Pod will be evicted (if running) or not scheduled (if new).
+Example
+kubectl taint nodes node1 key1=value1:NoSchedule
+kubectl taint nodes node1 key1=value1:NoExecute
+kubectl taint nodes node1 key2=value2:NoSchedule
+Pod tolerations:
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoExecute"
+The pod will not be scheduled on node1 because the third taint (key2=value2:NoSchedule) has no matching toleration.
+If the pod was already running on the node, it will continue running.
+TolerationSeconds Example
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoExecute"
+  tolerationSeconds: 3600
+Pod will stay on the node for 3600 seconds (1 hour) before being evicted (unless the taint is removed).
