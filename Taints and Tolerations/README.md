@@ -45,12 +45,12 @@ kubectl taint nodes <node_name> run=mypod:NoSchedule-
 
 _____________________________________________________________________________________________________________________________________________
 # Taints
-  Node affinity is a Pod property that attracts it to certain nodes (as a preference or a hard requirement).
+  Node affinity is a Pod property that attracts it to certain nodes (as a preference or a hard requirement)<br>
   Taints work in the opposite way — they allow a node to repel a set of pods
 
 # Tolerations
-Applied on pods.
-   Tolerations allow the scheduler to place pods on nodes that have matching taints.
+Applied on pods<br>
+   Tolerations allow the scheduler to place pods on nodes that have matching taints<br>
    Important: Tolerations do not guarantee scheduling; the scheduler still considers other constraints
 
   To add a taint on a node:
