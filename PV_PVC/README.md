@@ -85,8 +85,6 @@ spec:
 persistentVolumeReclaimPolicy: Retain
 ```
 
-# Kubernetes PVC, PV, and Provisioning
-
 ---
 
 ## 5. Why PVC Remains Pending
@@ -127,6 +125,11 @@ A **PVC (PersistentVolumeClaim)** remains **Pending** when no suitable PV (Persi
 | Cloud Support  | Limited          | Excellent       |
 
 ---
+
+# What is StorageClass?
+A StorageClass (SC) is a Kubernetes resource that describes how dynamic provisioning of PersistentVolumes (PVs) should happen<br>
+It allows admins to define different “classes” of storage—for example, fast SSD storage vs slower HDD storage<br>
+Users request a PVC with a specific StorageClass, and Kubernetes automatically creates a PV according to that class<br>
 
 ## 7. Example: PV, PVC, and Pod
 
