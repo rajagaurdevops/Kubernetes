@@ -30,11 +30,14 @@ This guide explains how to set up **automatic SSL/TLS certificates** in Kubernet
 ## 🚀 Step 1: Install Cert-Manager
 Apply the official manifest:
 
-```bash
+```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
+```
 
 # Post-Installation
-Creates cert-manager namespace
-Deploys: cert-manager, cert-manager-webhook, cert-manager-cainjector
-Registers CRDs: Certificates, Issuers, ClusterIssuers, Orders, Challenges
-Creates ServiceAccounts, Roles, and RoleBindings
+  Creates 'cert-manager' namespace
+  Deploys: 'cert-manager', 'cert-manager-webhook', 'cert-manager-cainjector'
+  Registers CRDs: Certificates, Issuers, ClusterIssuers, Orders, Challenges
+  Creates ServiceAccounts, Roles, and RoleBindings
+
+
