@@ -51,7 +51,7 @@ spec:
 - Used for **persistent data** such as databases or logs.  
 - Defined with **capacity, access modes, reclaim policy**, and optional **StorageClass**.
 
-```
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -75,7 +75,7 @@ spec:
 - **PV** provides the storage.  
 - Kubernetes **binds a PVC to a suitable PV automatically** if available.
 
-```
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -161,7 +161,7 @@ A StorageClass (SC) is a Kubernetes resource that describes how dynamic provisio
 It allows admins to define different “classes” of storage—for example, fast SSD storage vs slower HDD storage<br>
 Users request a PVC with a specific StorageClass, and Kubernetes automatically creates a PV according to that class<br>
 
-```
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
