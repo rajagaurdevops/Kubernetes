@@ -38,3 +38,50 @@ spec:
   volumes:
   - name: demo-volume
     emptyDir: {}
+```
+
+# Kubernetes Persistent Volumes and PVCs
+
+This document explains Kubernetes **PersistentVolumes (PV), PersistentVolumeClaims (PVC), Binding, Reclaim Policy, and Provisioning**.
+
+---
+
+## 2. PersistentVolume (PV)
+
+**PersistentVolume (PV)** is a **cluster-wide storage resource** independent of Pods.  
+
+- Used for **persistent data** such as databases or logs.  
+- Defined with **capacity, access modes, reclaim policy**, and optional **StorageClass**.
+
+---
+
+## 3. PV-PVC Binding
+
+- **PVC (PersistentVolumeClaim)** requests storage.  
+- **PV** provides the storage.  
+- Kubernetes **binds a PVC to a suitable PV automatically** if available.  
+
+### Binding Lifecycle
+
+| Status     | Description |
+|------------|------------|
+| Available  | PV is free and not bound to any PVC. |
+| Bound      | PV is bound to a PVC. |
+| Released   | PVC is deleted, PV retains data. |
+| Failed     | Binding or reclaim failed. |
+
+---
+
+## 4. Reclaim Policy
+
+**Reclaim Policy** defines what happens to a PV after its PVC is deleted.  
+
+| Policy   | Description |
+|----------|------------|
+| Retain   | PV is not deleted; data is preserved. |
+| Delete   | PV and underlying storage are deleted. |
+| Recycle (deprecated) | PV is cleaned and made available again. |
+
+**Example:**
+```yaml
+persistentVolumeReclaimPolicy: Retain
