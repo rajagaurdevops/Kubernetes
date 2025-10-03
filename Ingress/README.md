@@ -36,9 +36,10 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 # Post-Installation
 ```
-  Creates 'cert-manager' namespace<br>
-  Deploys: 'cert-manager', 'cert-manager-webhook', 'cert-manager-cainjector'<br>
-  Registers CRDs: Certificates, Issuers, ClusterIssuers, Orders, Challenges<br>
+  Creates 'cert-manager' namespace
+  Deploys: 'cert-manager', 'cert-manager-webhook', 'cert-manager-cainjector'
+  Registers CRDs: Certificates, Issuers, ClusterIssuers, Orders, Challenges
   Creates ServiceAccounts, Roles, and RoleBindings
 
-
+kubectl get pods -n cert-manager
+kubectl get crds | grep cert-manager
