@@ -55,7 +55,7 @@ Where to store the private key and certificate (in a Kubernetes Secret)<br>
 Issuer → Namespace-scoped<br>
 ClusterIssuer → Cluster-wide
 
-```
+```yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -78,7 +78,7 @@ Explanation<br>
     solvers: ACME domain verification method
 
   # Configure Ingress with TLS
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
