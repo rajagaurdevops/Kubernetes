@@ -51,13 +51,43 @@ spec:
 - Used for **persistent data** such as databases or logs.  
 - Defined with **capacity, access modes, reclaim policy**, and optional **StorageClass**.
 
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-demo
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: /mnt/data
+```
+
 ---
 
 ## 3. PV-PVC Binding
 
 - **PVC (PersistentVolumeClaim)** requests storage.  
 - **PV** provides the storage.  
-- Kubernetes **binds a PVC to a suitable PV automatically** if available.  
+- Kubernetes **binds a PVC to a suitable PV automatically** if available.
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-demo
+spec:
+  accessModes:
+    - ReadWriteOnce       
+  resources:
+    requests:
+      storage: 5Gi        
+  storageClassName: admin
+```
 
 ### Binding Lifecycle
 
@@ -130,6 +160,20 @@ A **PVC (PersistentVolumeClaim)** remains **Pending** when no suitable PV (Persi
 A StorageClass (SC) is a Kubernetes resource that describes how dynamic provisioning of PersistentVolumes (PVs) should happen<br>
 It allows admins to define different “classes” of storage—for example, fast SSD storage vs slower HDD storage<br>
 Users request a PVC with a specific StorageClass, and Kubernetes automatically creates a PV according to that class<br>
+
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: admin
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
+```
 
 ## Summary
 
