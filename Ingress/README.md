@@ -45,6 +45,13 @@ kubectl get pods -n cert-manager
 kubectl get crds | grep cert-manager
 ```
 # Create an Issuer or ClusterIssuer
+An Issuer is a cert-manager resource that tells Kubernetes how to get SSL/TLS certificates for a namespace
+
+It specifies<br>
+Which Certificate Authority (CA) to talk to (like Let’s Encrypt)<br>
+How to authenticate/verify domain ownership (ACME http01 or dns01)<br>
+Where to store the private key and certificate (in a Kubernetes Secret)<br>
+
 Issuer → Namespace-scoped<br>
 ClusterIssuer → Cluster-wide
 
