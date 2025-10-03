@@ -1,0 +1,52 @@
+# ----------------------------
+# 1. StorageClass
+# ----------------------------
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mettalex-nfs
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
+---
+
+# ----------------------------
+# 2. PersistentVolumeClaim
+# ----------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: mettalex-nfs
+
+---
+
+# ----------------------------
+# 3. Pod Using PVC
+# ----------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-using-pvc
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c", "echo Hello from PVC > /mnt/data/msg.txt && sleep 3600"]
+    volumeMounts:
+    - name: my-storage
+      mountPath: /mnt/data
+  volumes:
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: pvc-demo
