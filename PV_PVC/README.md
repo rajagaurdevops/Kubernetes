@@ -42,8 +42,6 @@ spec:
 
 # Kubernetes Persistent Volumes and PVCs
 
-This document explains Kubernetes **PersistentVolumes (PV), PersistentVolumeClaims (PVC), Binding, Reclaim Policy, and Provisioning**.
-
 ---
 
 ## 2. PersistentVolume (PV)
@@ -88,8 +86,6 @@ persistentVolumeReclaimPolicy: Retain
 ```
 
 # Kubernetes PVC, PV, and Provisioning
-
-This document explains why **PVCs may remain pending**, the difference between **static and dynamic provisioning**, and an example of **PV, PVC, and Pod configuration**.
 
 ---
 
