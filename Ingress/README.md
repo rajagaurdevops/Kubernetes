@@ -45,7 +45,7 @@ kubectl get pods -n cert-manager
 kubectl get crds | grep cert-manager
 ```
 # Create an Issuer or ClusterIssuer
-Issuer → Namespace-scoped
+Issuer → Namespace-scoped<br>
 ClusterIssuer → Cluster-wide
 
 ```
@@ -65,10 +65,10 @@ spec:
           class: "gce"
 ```
 Explanation<br>
-  server: Let’s Encrypt production API endpoint<br>
-  email: Renewal notifications<br>
-  privateKeySecretRef: Secret to store private key<br>
-  solvers: ACME domain verification method
+    server: Let’s Encrypt production API endpoint<br>
+    email: Renewal notifications<br>
+    privateKeySecretRef: Secret to store private key<br>
+    solvers: ACME domain verification method
 
   # Configure Ingress with TLS
 ```
@@ -95,4 +95,22 @@ spec:
             name: myapp-service
             port:
               number: 80
+```
+Explanation<br>
+    tls.secretName:  Secret where the certificate will be stored<br>
+    cert-manager.io/cluster-issuer:  Reference to Issuer/ClusterIssuer<br>
+    Configures HTTPS routing to your service
+
+Verify Certificate
+```
+kubectl describe certificate myapp-tls -n <namespace>
+kubectl get secret myapp-tls -n <namespace>
+```
+Check Certificate and Secret
+```
+kubectl get certificates -n <namespace>
+```
+🔗 References
+```
+https://cert-manager.io/v1.13-docs/tutorials/getting-started-with-cert-manager-on-google-kubernetes-engine-using-lets-encrypt-for-ingress-ssl
 ```
