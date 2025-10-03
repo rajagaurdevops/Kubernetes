@@ -43,3 +43,56 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 kubectl get pods -n cert-manager
 kubectl get crds | grep cert-manager
+```
+# Create an Issuer or ClusterIssuer
+Issuer → Namespace-scoped
+ClusterIssuer → Cluster-wide
+
+```
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@myapp.com
+    privateKeySecretRef:
+      name: letsencrypt-production-key
+    solvers:
+    - http01:
+        ingress:
+          class: "gce"
+```
+Explanation<br>
+  server: Let’s Encrypt production API endpoint<br>
+  email: Renewal notifications<br>
+  privateKeySecretRef: Secret to store private key<br>
+  solvers: ACME domain verification method
+
+  # Configure Ingress with TLS
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  tls:
+  - hosts:
+    - myapp.com
+    secretName: myapp-tls
+  rules:
+  - host: myapp.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 80
+```
