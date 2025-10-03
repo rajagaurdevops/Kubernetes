@@ -85,3 +85,99 @@ This document explains Kubernetes **PersistentVolumes (PV), PersistentVolumeClai
 **Example:**
 ```yaml
 persistentVolumeReclaimPolicy: Retain
+```
+
+# Kubernetes PVC, PV, and Provisioning
+
+This document explains why **PVCs may remain pending**, the difference between **static and dynamic provisioning**, and an example of **PV, PVC, and Pod configuration**.
+
+---
+
+## 5. Why PVC Remains Pending
+
+A **PVC (PersistentVolumeClaim)** remains **Pending** when no suitable PV (PersistentVolume) is available.
+
+**Common Reasons:**
+- PV storage capacity is **less than PVC request**  
+- **Access mode mismatch** (ReadWriteOnce, ReadWriteMany, ReadOnlyMany)  
+- **StorageClass mismatch**  
+- All matching PVs are already **bound**  
+- Selector or **node affinity mismatch**  
+
+---
+
+## 6. Static vs Dynamic Provisioning
+
+### Static Provisioning
+- PVs are **manually created** by the admin.  
+- PVC binds to **existing PVs**.  
+- **Pros:** Full control  
+- **Cons:** Manual, harder to scale  
+
+### Dynamic Provisioning
+- PVs are **automatically created** when a PVC is submitted.  
+- Requires a **StorageClass**.  
+- **Pros:** Automated, scalable  
+- **Cons:** Less fine-grained control  
+
+### Comparison
+
+| Feature        | Static           | Dynamic          |
+|----------------|-----------------|----------------|
+| PV Creation    | Manual           | Automatic       |
+| PVC Binding    | Existing PV      | Auto-created PV |
+| Scalability    | Hard             | Easy            |
+| Control        | High             | Moderate        |
+| Cloud Support  | Limited          | Excellent       |
+
+---
+
+## 7. Example: PV, PVC, and Pod
+
+### PersistentVolume (PV)
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-demo
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data
+```
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-demo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-using-pvc
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh", "-c", "echo Hello > /mnt/data/msg.txt && sleep 3600"]
+    volumeMounts:
+    - mountPath: /mnt/data
+      name: my-storage
+  volumes:
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: pvc-demo
+```
