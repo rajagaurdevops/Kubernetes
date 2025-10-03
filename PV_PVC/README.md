@@ -131,52 +131,15 @@ A StorageClass (SC) is a Kubernetes resource that describes how dynamic provisio
 It allows admins to define different “classes” of storage—for example, fast SSD storage vs slower HDD storage<br>
 Users request a PVC with a specific StorageClass, and Kubernetes automatically creates a PV according to that class<br>
 
-## 7. Example: PV, PVC, and Pod
+## Summary
 
-### PersistentVolume (PV)
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-demo
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: /mnt/data
-```
-```
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-demo
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
+- **PV (PersistentVolume)** = Storage resource in the cluster, independent of Pods.  
+- **PVC (PersistentVolumeClaim)** = Storage request made by a Pod.  
+- **Binding** = Connects a PV and PVC automatically based on capacity, access mode, and StorageClass.  
+- **Reclaim Policy** = Defines what happens to the PV after its PVC is deleted (Retain, Delete, Recycle).  
+- **Static vs Dynamic Provisioning** = Determines how PVs are created:
+  - **Static:** PVs are pre-created manually by the admin.  
+  - **Dynamic:** PVs are automatically created on PVC request using a StorageClass.  
 
-```
 
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-using-pvc
-spec:
-  containers:
-  - name: app
-    image: busybox
-    command: ["sh", "-c", "echo Hello > /mnt/data/msg.txt && sleep 3600"]
-    volumeMounts:
-    - mountPath: /mnt/data
-      name: my-storage
-  volumes:
-  - name: my-storage
-    persistentVolumeClaim:
-      claimName: pvc-demo
-```
+
