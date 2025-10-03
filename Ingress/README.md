@@ -16,7 +16,8 @@ This guide explains how to set up **automatic SSL/TLS certificates** in Kubernet
 ---
 
 ## 🔧 Cert-Manager Overview
-**Cert-Manager** is a Kubernetes-native tool that automates the management and lifecycle of SSL/TLS certificates.  
+**Cert-Manager** is a Kubernetes-native tool that automates the management and lifecycle of SSL/TLS certificates within a cluster. It handles certificate issuance, validation, renewal, and storage, ensuring workloads remain securely accessible over HTTPS.
+  
 
 **Core Functions**
 - **Issuance** → Requests certificates from CAs (e.g., Let’s Encrypt)  
