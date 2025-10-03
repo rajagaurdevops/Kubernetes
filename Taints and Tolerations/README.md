@@ -20,7 +20,7 @@ kubectl get pod test -o wide
 ### Value: value1
 ### Effect: Noschedule
 Solution: Use the following YAML definition to create the pod with the toleration:
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -69,7 +69,7 @@ kubectl taint nodes <node_name> run=mypod:NoSchedule-
 # Adding Tolerations to Pods
   Tolerations are specified in the PodSpec
 
-  ```
+  ```yaml
     tolerations:
     - key: "key1"
       operator: "Equal"
@@ -88,7 +88,7 @@ However, if the node has a NoExecute taint, the kubelet can still evict the pod 
 
 #  Example Pod YAML
 
-```
+```yaml
         apiVersion: v1
         kind: Pod
         metadata:
