@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-deployment
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent
+  template:
+    metadata:
+      labels:
+        app: agent
+    spec:
+      serviceAccountName: agent-test  # ServiceAccount assigned here
+      containers:
+        - name: agent-container
+          image: nginx
+          ports:
+            - containerPort: 80
