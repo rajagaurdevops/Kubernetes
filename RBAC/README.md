@@ -39,8 +39,8 @@ metadata:
   name: read-pods
   namespace: default
 subjects:
-- kind: User
-  name: jack
+- kind: ServiceAccount
+  name: agent-test
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
