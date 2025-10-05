@@ -4,10 +4,16 @@ metadata:
   name: admin-ingress
   namespace: <namespace>
   annotations:
+    # Specifies which Ingress controller to use — "gce" means Google Cloud Load Balancer (GCE Ingress)
     kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.allow-http: "true"
-    kubernetes.io/ingress.global-static-ip-name: 
+     # Allow HTTP traffic
+    kubernetes.io/ingress.allow-http: "true" 
+     # Used to assign a fixed IP to the GCP load balancer instead of a random one
+    kubernetes.io/ingress.global-static-ip-name: <static ip name>
+    # SSL cert via Let's Encrypt
     cert-manager.io/issuer: letsencrypt-production
+    # Enable WebSocket support
+    ingress.gcp.kubernetes.io/enable-websockets: "true"
 spec:
   tls:
   - hosts:
