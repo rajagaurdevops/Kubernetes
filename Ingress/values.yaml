@@ -1,0 +1,5 @@
+ingress_playground:
+   enabled: true
+   name: frontend
+   class: gce
+   ip: playground-frontend-ingress
