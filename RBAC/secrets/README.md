@@ -1,8 +1,5 @@
 # Kubernetes Secrets: How to Create, Use, and Manage Secrets in Kubernetes
 
-This repository contains code samples and commands used in the YouTube video tutorial on managing secrets in Kubernetes. In the video, we cover creating and managing different types of secrets, including generic, Docker-registry, and TLS secrets.
-
-## Commands Used in the Video:
 
 ### To create different types of secrets
 #### Generic Secret
