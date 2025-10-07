@@ -5,6 +5,7 @@ metadata:
 data:
   APP_ENV: "staging"
   APP_DEBUG: "true"
+  
 ---
 apiVersion: v1
 kind: Pod
