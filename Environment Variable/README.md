@@ -29,7 +29,7 @@ spec:
 ```
 Explanation:<br>
 
-APP_ENV and APP_DEBUG environment variables are set inside the container<br>
+`APP_ENV` and `APP_DEBUG` environment variables are set inside the container<br>
 Access them inside the container, e.g.:
 ```
 echo $APP_ENV
