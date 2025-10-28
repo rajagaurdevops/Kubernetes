@@ -66,10 +66,5 @@ To check Horizontal Pod Autoscalers in your cluster:
 kubectl get hpa
 ```
 
-Example
+https://cloud.google.com/kubernetes-engine/docs/how-to/horizontal-pod-autoscaling#console
 
-NAME    REFERENCE          TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-nginx   Deployment/nginx   0%/50%    1         10        3          61s
-
-
-Horizontal Pod Autoscaling - Google Cloud
