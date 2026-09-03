@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns01-route53
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@example.com
+    privateKeySecretRef:
+      name: letsencrypt-route53-account-key
+    solvers:
+      # Enable DNS-01 challenge solver using AWS Route53 (supports wildcard *.example.com)
+      - dns01:
+          route53:
+            region: us-east-1
+            # AWS IAM Role for Service Account (IRSA) or Access Key Secret
+            # secretAccessKeySecretRef:
+            #   name: route53-credentials
+            #   key: secret-access-key
+

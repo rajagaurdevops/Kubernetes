@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    # Let's Encrypt Production ACME Server
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for critical certificate expiry notifications
+    email: admin@example.com
+    # Name of a secret to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-production-account-key
+    solvers:
+      # Enable HTTP-01 challenge solver using Ingress
+      - http01:
+          ingress:
+            class: nginx # Change to 'gce' if using GKE Ingress, 'traefik' for Traefik, etc.
+

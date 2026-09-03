@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  namespace: default
+  annotations:
+    # 1. Trigger Cert-Manager to automatically provision a Let's Encrypt certificate
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+
+    # 2. SSL enforcement annotations for NGINX Ingress Controller
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx # Modern Kubernetes 1.18+ ingress class definition
+  tls:
+    - hosts:
+        - myapp.example.com
+      secretName: myapp-tls-secret # Cert-Manager stores tls.crt and tls.key in this secret
+  rules:
+    - host: myapp.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp-service
+                port:
+                  number: 80
+

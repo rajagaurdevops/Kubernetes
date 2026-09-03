@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # Let's Encrypt Staging ACME Server (generous rate limits for testing)
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Email address used for ACME account registration
+    email: devops@example.com
+    # Name of a secret to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      # Enable HTTP-01 challenge solver using Ingress
+      - http01:
+          ingress:
+            class: nginx # Set to your Ingress controller class: nginx, gce, traefik, alb
+

@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: myapp-certificate
+  namespace: default
+spec:
+  # Secret name where the issued certificate & private key will be saved
+  secretName: myapp-tls-secret
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: myapp.example.com
+  dnsNames:
+    - myapp.example.com
+    - www.myapp.example.com
+  # Validity & Auto-Renewal Durations
+  duration: 2160h    # 90 days validity (standard for Let's Encrypt)
+  renewBefore: 720h  # Automatically renew 30 days prior to expiration
+
